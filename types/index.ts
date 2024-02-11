@@ -3,7 +3,7 @@ export type CreateUserParams = {
     clerkId: string
     firstName: string
     lastName: string
-    // username: string   
+    username: string   
     email: string
     photo: string
   }
@@ -26,9 +26,9 @@ export type CreateUserParams = {
       startDateTime: Date
       endDateTime: Date
       categoryId: string
-      price: string
-      isFree: boolean
-      url: string
+      // price: string
+      // isFree: boolean
+      // url: string
     }
     path: string
   }
@@ -80,13 +80,13 @@ export type CreateUserParams = {
     _id: string
     title: string
     description: string
-    price: string
-    isFree: boolean
+    // price: string
+    // isFree: boolean
     imageUrl: string
     location: string
     startDateTime: Date
     endDateTime: Date
-    url: string
+    // url: string
     organizer: {
       _id: string
       firstName: string
