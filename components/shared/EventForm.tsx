@@ -24,7 +24,7 @@ import { useState } from "react";
 import Image from "next/image";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import router from "next/router";
+import { useRouter } from "next/navigation"
 import { createEvent, updateEvent } from "@/lib/actions/event.actions"
 import { IEvent } from "@/lib/database/models/event.model"
 import { useUploadThing } from '@/lib/uploadthing'
@@ -48,7 +48,7 @@ const EventForm = ({ userId, type, event, eventId}: EventFormProps) => {
     endDateTime: new Date(event.endDateTime) 
   }
   : eventDefaultValues;
-  // const router = useRouter();
+  const router = useRouter();
   const { startUpload } = useUploadThing('imageUploader')
 
   // 1. Define your form.
