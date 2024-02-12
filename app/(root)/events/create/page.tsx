@@ -8,6 +8,7 @@ const CreateEvent = () => {
     //  const { userId, orgId } = auth()
 
     const userId = sessionClaims?.userId as string;
+    //const userId = newUser.userId
 
   return (
     <>

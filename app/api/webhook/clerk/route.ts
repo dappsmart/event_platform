@@ -4,6 +4,7 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
 import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
+import { CreateEventParams } from '@/types'
  
 export async function POST(req: Request) {
  
@@ -77,10 +78,18 @@ export async function POST(req: Request) {
         }
       })
     }
-    const userId = newUser._id
-    console.log ('newuserhello')
-    console.log({userId: newUser._id})
-    console.log({userId})
+    const userId = newUser.userId
+    console.log ({userId})
+
+    // if (userId) {
+    //   await clerkClient.users.updateUser(id, {
+    //      CreateEventParams: {
+    //       userId : newUser._id
+    //     }
+    //   })
+    }
+    
+
     return NextResponse.json({ message: 'OK', user: newUser })
   }
 
