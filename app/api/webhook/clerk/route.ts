@@ -78,16 +78,16 @@ export async function POST(req: Request) {
         }
       })
     }
-    const userId = newUser.userId
-    console.log ({userId})
+      const userId = newUser.userId
+      console.log ({userId})
 
-    // if (userId) {
-    //   await clerkClient.users.updateUser(id, {
-    //      CreateEventParams: {
-    //       userId : newUser._id
-    //     }
-    //   })
-    }
+        // if (userId) {
+        //   await clerkClient.users.updateUser(id, {
+        //      CreateEventParams: {
+        //       userId : newUser._id
+        //     }
+        //   }
+        // }
     
 
     return NextResponse.json({ message: 'OK', user: newUser })
