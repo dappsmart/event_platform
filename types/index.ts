@@ -88,7 +88,7 @@ export type CreateUserParams = {
     endDateTime: Date
     // url: string
     organizer: {
-      _id: string
+      userId: string
       firstName: string
       lastName: string
     }
