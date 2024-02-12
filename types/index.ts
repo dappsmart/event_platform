@@ -17,7 +17,7 @@ export type CreateUserParams = {
   
   // ====== EVENT PARAMS
   export type CreateEventParams = {
-    userId: string
+    clerkId: string
     event: {
       title: string
       description: string
