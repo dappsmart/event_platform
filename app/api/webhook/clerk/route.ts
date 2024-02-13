@@ -76,6 +76,10 @@ export async function POST(req: Request) {
       })
     }
 
+
+    const userId = newUser.userId
+    console.log ({userId})
+
     return NextResponse.json({ message: 'OK', user: newUser })
   }
 
