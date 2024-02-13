@@ -17,7 +17,7 @@ export type CreateUserParams = {
   
   // ====== EVENT PARAMS
   export type CreateEventParams = {
-    userId: string
+    clerkId: string
     event: {
       title: string
       description: string
@@ -34,7 +34,7 @@ export type CreateUserParams = {
   }
   
   export type UpdateEventParams = {
-    userId: string
+    clerkId: string
     event: {
       _id: string
       title: string
@@ -64,7 +64,7 @@ export type CreateUserParams = {
   }
   
   export type GetEventsByUserParams = {
-    userId: string
+    clerkId: string
     limit?: number
     page: number
   }
@@ -88,7 +88,7 @@ export type CreateUserParams = {
     endDateTime: Date
     // url: string
     organizer: {
-      _id: string
+      clerkId: string
       firstName: string
       lastName: string
     }
