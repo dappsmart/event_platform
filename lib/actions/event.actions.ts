@@ -23,19 +23,19 @@ const getCategoryByName = async (name: string) => {
 
 const populateEvent = (query: any) => {
   return query
-    .populate({ path: 'organizer', model: User, select: 'clerkId firstName lastName' })
+    .populate({ path: 'organizer', model: User, select: '_id firstName lastName' })
     .populate({ path: 'category', model: Category, select: '_id name' })
 }
 
 // CREATE
-export async function createEvent({ clerkId, event, path }: CreateEventParams) {
+export async function createEvent({ userId, event, path }: CreateEventParams) {
   try {
     await connectToDatabase()
 
-    const organizer = await User.findById(clerkId)
+    const organizer = await User.findById(userId)
     if (!organizer) throw new Error('Organizer not found')
 
-    const newEvent = await Event.create({ ...event, category: event.categoryId, organizer: clerkId })
+    const newEvent = await Event.create({ ...event, category: event.categoryId, organizer: userId })
     revalidatePath(path)
 
     return JSON.parse(JSON.stringify(newEvent))
@@ -60,12 +60,12 @@ export async function getEventById(eventId: string) {
 }
 
 // UPDATE
-export async function updateEvent({ clerkId, event, path }: UpdateEventParams) {
+export async function updateEvent({ userId, event, path }: UpdateEventParams) {
   try {
     await connectToDatabase()
 
     const eventToUpdate = await Event.findById(event._id)
-    if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== clerkId) {
+    if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== userId) {
       throw new Error('Unauthorized or event not found')
     }
 
@@ -124,11 +124,11 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
 }
 
 // GET EVENTS BY ORGANIZER
-export async function getEventsByUser({ clerkId, limit = 6, page }: GetEventsByUserParams) {
+export async function getEventsByUser({ userId, limit = 6, page }: GetEventsByUserParams) {
   try {
     await connectToDatabase()
 
-    const conditions = { organizer: clerkId }
+    const conditions = { organizer: userId }
     const skipAmount = (page - 1) * limit
 
     const eventsQuery = Event.find(conditions)
