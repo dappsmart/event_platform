@@ -7,7 +7,7 @@ const CreateEvent = () => {
     const {sessionClaims} = auth();
     //  const { userId, orgId } = auth()
 
-    const userId = sessionClaims?.userId as string;
+    const clerkId = sessionClaims?.clerkId as string;
     //const userId = newUser.userId
 
   return (
@@ -16,7 +16,7 @@ const CreateEvent = () => {
           <h3 className="wrapper h3-bold text-center sm:text-left">Create Event</h3>
         </section>
         <div className="wrapper my-8">
-            <EventForm clerkId={userId} type="Create" />
+            <EventForm clerkId={clerkId} type="Create" />
         </div>
     </>
   )
