@@ -4,7 +4,6 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
 import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
-import { CreateEventParams } from '@/types'
  
 export async function POST(req: Request) {
  
@@ -52,9 +51,8 @@ export async function POST(req: Request) {
   }
  
   // Get the ID and type
-  // const { id } = evt.data;
+  const { id } = evt.data;
   const eventType = evt.type;
-
  
   if(eventType === 'user.created') {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
@@ -64,8 +62,7 @@ export async function POST(req: Request) {
       email: email_addresses[0].email_address,
       username: username!,
       firstName: first_name,
-      lastName: last_name, 
-      
+      lastName: last_name,
       photo: image_url,
     }
 
@@ -74,26 +71,13 @@ export async function POST(req: Request) {
     if(newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
-          userId : newUser._id
+          userId: newUser._id
         }
       })
     }
-      const userId = newUser.userId
-      console.log ({userId})
-
-        // if (userId) {
-        //   await clerkClient.users.updateUser(id, {
-        //      CreateEventParams: {
-        //       userId : newUser._id
-        //     }
-        //   }
-        // }
-    
 
     return NextResponse.json({ message: 'OK', user: newUser })
   }
-
-  
 
   if (eventType === 'user.updated') {
     const {id, image_url, first_name, last_name, username } = evt.data
@@ -102,7 +86,7 @@ export async function POST(req: Request) {
       firstName: first_name,
       lastName: last_name,
       username: username!,
-      photo: image_url!,
+      photo: image_url,
     }
 
     const updatedUser = await updateUser(id, user)
