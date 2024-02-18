@@ -34,6 +34,15 @@ export type CreateEventParams = {
   path: string
 }
 
+export type GetEventByIdParams = {
+  id: string
+  
+}
+
+
+
+
+
 export type UpdateEventParams = {
   userId: string
   event: {

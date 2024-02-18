@@ -4,16 +4,10 @@ import { getEventById, getRelatedEventsByCategory } from '@/lib/actions/event.ac
 import { formatDateTime } from '@/lib/utils';
 import { SearchParamProps } from '@/types'
 import Image from 'next/image';
-import { IEvent } from '@/lib/database/models/event.model'
 
- 
-
- 
 const EventDetails = async ({ params: {id}, searchParams }: SearchParamProps) => {
-  const event = await getEventById(id);
+  const event = await getEventById({id});
 
-
- 
   const relatedEvents = await getRelatedEventsByCategory({
     categoryId: event.category._id,
     eventId: event._id,
