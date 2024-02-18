@@ -50,7 +50,7 @@ export async function getEventById({id}:GetEventByIdParams) {
   try {
     await connectToDatabase()
     
-    const event = await populateEvent(Event.findById({id}))
+    const event = await populateEvent(Event.findById(id))
 
     if (!event) throw new Error('Event not found')
 
