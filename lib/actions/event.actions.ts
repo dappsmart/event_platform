@@ -61,7 +61,7 @@ export async function getEventById({id}:GetEventByIdParams) {
 }
 
 // UPDATE
-export async function updateEvent({ userId, event, path }: UpdateEventParams) {
+export async function updateEvent({ userId, event, path}: UpdateEventParams) {
   try {
     await connectToDatabase()
 

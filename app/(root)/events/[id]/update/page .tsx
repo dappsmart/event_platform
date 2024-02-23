@@ -2,11 +2,12 @@ import EventForm from "@/components/shared/EventForm"
 import { getEventById } from "@/lib/actions/event.actions";
 import { auth } from "@clerk/nextjs"
 import { IEvent } from '@/lib/database/models/event.model'
+import { SearchParamProps } from "@/types";
 
 
-type UpdateEventProps = {
+type UpdateEventPageFormRenderingProps = {
   params: {
-    eventId: string
+    id: string
   }
 }
 
@@ -14,11 +15,11 @@ type UpdateEventProps = {
 
 
 
-const UpdateEvent = async ({ params: { eventId } }: UpdateEventProps) => {
+const UpdateEventFormPage = async ({params: {id}, searchParams }: SearchParamProps) => {
     const {sessionClaims} = auth();
 
     const userId = sessionClaims?.userId as string;
-    const event = await getEventById({id: eventId})
+    const event = await getEventById({id})
 
   return (
     <>
@@ -37,4 +38,4 @@ const UpdateEvent = async ({ params: { eventId } }: UpdateEventProps) => {
   )
 }
 
-export default UpdateEvent
+export default UpdateEventFormPage

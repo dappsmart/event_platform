@@ -30,6 +30,7 @@
     "query-string": "^8.2.0",
     "react": "^18",
     "react-datepicker": "^6.1.0",
+    "react-devtools": "^5.0.0",
     "react-dom": "^18",
     "react-hook-form": "^7.50.0",
     "stripe": "^14.16.0",

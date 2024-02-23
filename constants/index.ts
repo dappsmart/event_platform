@@ -14,7 +14,7 @@ export const headerLinks = [
 ]
 
 export const eventDefaultValues = {
-  title: '',
+  title: 'Here is the title',
   description: '',
   location: '',
   imageUrl: '',

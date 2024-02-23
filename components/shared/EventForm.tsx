@@ -28,9 +28,11 @@ type EventFormProps = {
   type: "Create" | "Update"
   event?: IEvent,
   eventId?: string
+  
+  
 }
 
-const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
+const EventForm = ({ userId, type, event }: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([])
   const initialValues = event && type === 'Update' 
     ? { 
@@ -79,7 +81,8 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     }
 
     if(type === 'Update') {
-      if(!eventId) {
+      if(!event) {
+        console.log ("event not found")
         router.back()
         return;
       }
@@ -87,8 +90,9 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
       try {
         const updatedEvent = await updateEvent({
           userId,
-          event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
-          path: `/events/${eventId}`
+          event: { ...values, imageUrl: uploadedImageUrl, _id: event._id},
+          path: `/events/${event._id}`,
+          id: event._id
         })
 
         if(updatedEvent) {
