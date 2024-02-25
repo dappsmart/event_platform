@@ -56,10 +56,10 @@ export default async function Home({ searchParams }: SearchParamProps) {
         <div className="flex flex-col md:flex-row gap-5">
           <Search />
           <CategoryFilter />
-          Search CategoryFilter
+          
         </div>
         
-        {/* <Collection
+        <Collection
           data={events?.data}
           emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"
@@ -67,7 +67,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
           limit={6}
           page={page}
           totalPages={events?.totalPages}
-        /> */}
+        />
 
       </section>
     </>
