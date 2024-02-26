@@ -15,13 +15,13 @@ export interface IOrder extends Document {
   }
 }
 
-export type IOrderItem = {
+export interface IOrderItem extends Document {
   _id: string
   totalAmount: string
   createdAt: Date
   eventTitle: string
   eventId: string
-  buyer: string
+  buyerId: string
 }
 
 const OrderSchema = new Schema({
@@ -37,11 +37,11 @@ const OrderSchema = new Schema({
   totalAmount: {
     type: String,
   },
-  event: {
+  eventId: {
     type: Schema.Types.ObjectId,
     ref: 'Event',
   },
-  buyer: {
+  buyerId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
