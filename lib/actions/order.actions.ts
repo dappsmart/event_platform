@@ -72,13 +72,13 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
       {
         $lookup: {
           from: 'users',
-          localField: 'buyer',
+          localField: 'buyer?',
           foreignField: '_id',
-          as: 'buyer',
+          as: 'buyer?',
         },
       },
       {
-        $unwind: '$buyer',
+        $unwind: '$buyer?',
       },
       {
         $lookup: {
@@ -99,7 +99,7 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
           eventTitle: '$event.title',
           eventId: '$event._id',
           buyer: {
-            $concat: ['$buyerId.firstName', ' ', '$buyerId.lastName'],
+            $concat: ['$buyerId?.firstName', ' ', '$buyerId?.lastName'],
           },
         },
       },
