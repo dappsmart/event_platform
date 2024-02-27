@@ -39,22 +39,22 @@ const OrderSchema = new Schema({
   totalAmount: {
     type: String,
   },
-  eventId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Event',
-  },
-  buyerId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  }
-  // event: {
+  // eventId: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'Event',
   // },
-  // buyer: {
+  // buyerId: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'User',
-  // },
+  // }
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'Event',
+  },
+  buyer: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 })
 
 const Order = models.Order || model('Order', OrderSchema)

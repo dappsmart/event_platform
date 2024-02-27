@@ -107,6 +107,8 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
     }
 
     const skipAmount = (Number(page) - 1) * limit
+
+    
     const eventsQuery = Event.find(conditions)
       .sort({ createdAt: 'desc' })
       .skip(skipAmount)
