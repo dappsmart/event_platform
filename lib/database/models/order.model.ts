@@ -47,6 +47,14 @@ const OrderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'Event',
+  },
+  buyer: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 })
 
 const Order = models.Order || model('Order', OrderSchema)

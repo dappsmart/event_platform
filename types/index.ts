@@ -129,6 +129,8 @@ export type CreateOrderParams = {
   buyerId: string
   totalAmount: string
   createdAt: Date
+  event: string
+  buyer: string
 }
 
 export type GetOrdersByEventParams = {

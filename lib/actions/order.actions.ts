@@ -99,7 +99,7 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
           eventTitle: '$event.title',
           eventId: '$event._id',
           buyer: {
-            $concat: ['$buyer.firstName', ' ', '$buyer.lastName'],
+            $concat: ['$buyerId.firstName', ' ', '$buyerId.lastName'],
           },
         },
       },
