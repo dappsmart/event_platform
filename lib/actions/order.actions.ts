@@ -151,7 +151,7 @@ export async function getOrdersByUser({
     const skipAmount = (Number(page) - 1) * limit;
     const conditions = { buyer: userId };
 
-    // const orders = await Order.distinct("order._id")
+    // const orders = await Order.distinct("event._id")
     //   .find(conditions)
     //   .sort({ createdAt: "desc" })
     //   .skip(skipAmount)
@@ -183,10 +183,11 @@ export async function getOrdersByUser({
 
 
     const orders = await populateOrder(ordersQuery);
+    const ordersCount = await Event.countDocuments(conditions)
+        // const ordersCount = await Order.distinct("event._id").countDocuments(
+    //   conditions
+    // );
 
-    const ordersCount = await Order.distinct("event._id").countDocuments(
-      conditions
-    );
 
     return {
       data: JSON.parse(JSON.stringify(orders)),
