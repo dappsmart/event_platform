@@ -1,7 +1,7 @@
 import { Schema, model, models, Document } from 'mongoose'
 
 export interface IOrder extends Document {
-  createdAt: Date
+  // createdAt: Date
   stripeId: string
   totalAmount: string
   // eventId: string
@@ -23,7 +23,7 @@ export type IOrderItem = {
   createdAt: Date
   eventTitle: string
   eventId: string
-  buyerId: string
+  buyer: string
 }
 
 const OrderSchema = new Schema({

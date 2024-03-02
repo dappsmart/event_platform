@@ -1,12 +1,7 @@
 "use server";
 
 import Stripe from "stripe";
-import {
-  CheckoutOrderParams,
-  CreateOrderParams,
-  GetOrdersByEventParams,
-  GetOrdersByUserParams,
-} from "@/types";
+
 import { redirect } from "next/navigation";
 import { handleError } from "../utils";
 import { connectToDatabase } from "../database";
@@ -15,17 +10,29 @@ import Event from "../database/models/event.model";
 import { ObjectId } from "mongodb";
 import User from "../database/models/user.model";
 
-
+import {
+  CheckoutOrderParams,
+  CreateOrderParams,
+  GetOrdersByEventParams,
+  GetOrdersByUserParams,
+} from "@/types";
 
 const populateOrder = (query: any) => {
   return query
-    .populate({ path: 'buyer', model: User, select: '_id firstName lastName' })
-    .populate({ path: 'event', model: Event, select: '_id name' })
-}
+    .populate({ path: "buyer", model: User, select: "_id firstName lastName" })
+    .populate({ path: "event", model: Event, select: "_id title" });
+};
+//   description?
+//   location?
+//   createdAt
+//   imageUrl
+//   startDateTime
+//   endDateTime
+//   price
+//   isFree
+//   url?"
 
-
-
-
+// } )
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -139,6 +146,18 @@ export async function getOrdersByEvent({
   }
 }
 
+// function populate(arg0: {
+//   path: string;
+//   model: import("mongoose").Model<any, {}, {}, {}, any, any>;
+//   populate: {
+//     path: string;
+//     model: import("mongoose").Model<any, {}, {}, {}, any, any>;
+//     select: string;
+//   };
+// }) {
+//   throw new Error("Function not implemented.");
+// }
+
 // GET ORDERS BY USER
 export async function getOrdersByUser({
   userId,
@@ -148,46 +167,19 @@ export async function getOrdersByUser({
   try {
     await connectToDatabase();
 
-    const skipAmount = (Number(page) - 1) * limit;
     const conditions = { buyer: userId };
-
-    // const orders = await Order.distinct("event._id")
-    //   .find(conditions)
-    //   .sort({ createdAt: "desc" })
-    //   .skip(skipAmount)
-    //   .limit(limit)
-    //   .populate({
-    //     path: "event",
-    //     model: Event,
-    //     populate: {
-    //       path: "organizer",
-    //       model: User,
-    //       select: "_id firstName lastName",
-    //     },
-    //   });
+    const skipAmount = (page - 1) * limit;
 
     const ordersQuery = Order.find(conditions)
-      .sort({ createdAt: "desc" })
+      // .sort({ createdAt: 'desc' })
       .skip(skipAmount)
       .limit(limit);
-      // .populate({
-      //   path: "event",
-      //   model: Event,
-      //   populate: {
-      //     path: "organizer",
-      //     model: User,
-      //     select: "_id firstName lastName",
-      //   },
-      // });
-
-
 
     const orders = await populateOrder(ordersQuery);
-    const ordersCount = await Event.countDocuments(conditions)
-        // const ordersCount = await Order.distinct("event._id").countDocuments(
+    const ordersCount = await Order.countDocuments(conditions);
+    // const ordersCount = await Order.distinct('event._id').countDocuments(
     //   conditions
     // );
-
 
     return {
       data: JSON.parse(JSON.stringify(orders)),

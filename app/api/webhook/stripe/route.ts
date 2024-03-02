@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       event: metadata?.eventId || '',
       buyer: metadata?.buyerId || '',
       totalAmount: amount_total ? (amount_total / 100).toString() : '0',
-      createdAt: new Date(),
+      createdAt: new Date()
     }
 
     const newOrder = await createOrder(order)

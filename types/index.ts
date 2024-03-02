@@ -1,3 +1,5 @@
+import { IOrder } from "@/lib/database/models/order.model"
+
 // ====== USER PARAMS
 export type CreateUserParams = {
   clerkId: string
@@ -109,6 +111,24 @@ export type Event = {
   }
 }
 
+export type Order = {
+  createdAt: Date
+  stripeId: string
+  totalAmount: string
+  // eventId: string
+  // buyerId: string
+  event: {
+    _id: string
+    title: string
+  }
+  buyer: {
+    _id: string
+    firstName: string
+    lastName: string
+  }
+}
+
+
 // ====== CATEGORY PARAMS
 export type CreateCategoryParams = {
   categoryName: string
@@ -128,7 +148,7 @@ export type CreateOrderParams = {
   // eventId: string
   // buyerId: string
   totalAmount: string
-  createdAt: Date
+  createdAt: DateConstructor
   event: string
   buyer: string 
 }
@@ -139,9 +159,10 @@ export type GetOrdersByEventParams = {
 }
 
 export type GetOrdersByUserParams = {
-  userId: string | null
+  // order : IOrder
+  userId: string 
   limit?: number
-  page: string | number | null
+  page: number 
 }
 
 // ====== URL QUERY PARAMS
