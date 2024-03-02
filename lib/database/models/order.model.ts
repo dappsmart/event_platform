@@ -27,10 +27,10 @@ export type IOrderItem = {
 }
 
 const OrderSchema = new Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
   stripeId: {
     type: String,
     required: true,
