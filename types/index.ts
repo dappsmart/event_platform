@@ -112,7 +112,7 @@ export type Event = {
 }
 
 export type Order = {
-  createdAt: Date
+  // createdAt: Date
   stripeId: string
   totalAmount: string
   // eventId: string
