@@ -14,25 +14,31 @@ import {
   CheckoutOrderParams,
   CreateOrderParams,
   GetOrdersByEventParams,
-  GetOrdersByUserParams,
+  GetOrderedEventsByUserParams,
 } from "@/types";
-
-const populateOrder = (query: any) => {
+import Category from "../database/models/category.model";
+// const populateOrderedEvent = (query: any) => {
+//   return query
+//     .populate({ path: 'organizer', model: User, select: '_id firstName lastName' })
+//     .populate({ path: 'category', model: Category, select: '_id name' })
+// }
+const populateOrderedEvent = (query: any) => {
   return query
-    .populate({ path: "buyer", model: User, select: "_id firstName lastName" })
-    .populate({ path: "event", model: Event, select: "_id title" });
-};
-//   description?
-//   location?
-//   createdAt
-//   imageUrl
-//   startDateTime
-//   endDateTime
-//   price
-//   isFree
-//   url?"
-
-// } )
+//     .populate({ path: "buyer", model: User, select: "_id firstName lastName" })
+//     .populate({
+//       path: "event",
+//       model: Event,
+//       populate: {
+//         path: "organizer",
+//         model: User,
+//         select: "_id firstName lastName",
+//       },
+//       select:
+//         "_id title description imageUrl startDateTime endDateTime price isFree url {organizer._id} {organizer.firstName} organizer.lastName }  ",
+//     });
+// 
+}
+;
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -159,30 +165,65 @@ export async function getOrdersByEvent({
 // }
 
 // GET ORDERS BY USER
-export async function getOrdersByUser({
+export async function getOrderedEventsByUser({
   userId,
   limit = 15,
   page,
-}: GetOrdersByUserParams) {
+}: GetOrderedEventsByUserParams) {
   try {
     await connectToDatabase();
 
     const conditions = { buyer: userId };
     const skipAmount = (page - 1) * limit;
 
-    const ordersQuery = Order.find(conditions)
+    const orderedEventsQuery = Order.find(conditions)
       // .sort({ createdAt: 'desc' })
       .skip(skipAmount)
-      .limit(limit);
+      .limit(limit)
 
-    const orders = await populateOrder(ordersQuery);
+      .populate({
+        path: "buyer",
+        model: User,
+        select: "_id firstName lastName",
+      })
+      .populate({
+        path: "event", 
+        model: Event,
+        select:
+          "_id title description imageUrl startDateTime endDateTime price isFree url {organizer._id} {organizer.firstName} organizer.lastName }  ",
+        })  
+        
+      .populate({
+        path: "event",
+        model: Event,
+         populate: ({
+          path: "organizer",
+          model: User,
+          select: "_id firstName lastName",
+        })})
+
+        .populate({
+          path: "event",
+          model: Event,
+           populate: ({
+            path: "category",
+            model: Category,
+            select: "_id name",
+          })})
+
+
+      
+        
+        ;
+
+    const orderedEvents = await populateOrderedEvent(orderedEventsQuery);
     const ordersCount = await Order.countDocuments(conditions);
     // const ordersCount = await Order.distinct('event._id').countDocuments(
     //   conditions
     // );
 
     return {
-      data: JSON.parse(JSON.stringify(orders)),
+      data: JSON.parse(JSON.stringify(orderedEvents)),
       totalPages: Math.ceil(ordersCount / limit),
     };
   } catch (error) {

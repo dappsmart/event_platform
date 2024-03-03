@@ -3,24 +3,22 @@ import Link from "next/link";
 import Image from "next/image";
 import Search from "@/components/shared/Search";
 import CategoryFilter from "@/components/shared/CategoryFilter";
-import Collection from "@/components/shared/Collection";
+import Collection from "@/components/shared/CollectionOrder";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
-import { auth } from '@clerk/nextjs'
-
-
+import { auth } from "@clerk/nextjs";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
-  const searchText = (searchParams?.query as string) || '';
-  const category = (searchParams?.category as string) || '';
+  const searchText = (searchParams?.query as string) || "";
+  const category = (searchParams?.category as string) || "";
 
   const events = await getAllEvents({
     query: searchText,
     category,
     page,
-    limit: 6
-  })
+    limit: 6,
+  });
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain p-5 md:p-10">
@@ -56,9 +54,8 @@ export default async function Home({ searchParams }: SearchParamProps) {
         <div className="flex flex-col md:flex-row gap-5">
           <Search />
           <CategoryFilter />
-          
         </div>
-        
+
         <Collection
           data={events?.data}
           emptyTitle="No Events Found"
@@ -68,7 +65,6 @@ export default async function Home({ searchParams }: SearchParamProps) {
           page={page}
           totalPages={events?.totalPages}
         />
-
       </section>
     </>
   );

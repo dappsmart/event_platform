@@ -158,7 +158,7 @@ export type GetOrdersByEventParams = {
   searchString: string
 }
 
-export type GetOrdersByUserParams = {
+export type GetOrderedEventsByUserParams = {
   // order : IOrder
   userId: string 
   limit?: number
