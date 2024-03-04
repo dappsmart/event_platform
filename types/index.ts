@@ -148,7 +148,7 @@ export type CreateOrderParams = {
   // eventId: string
   // buyerId: string
   totalAmount: string
-  createdAt: Date
+  createdAt: string
   event: string
   buyer: string 
 }
