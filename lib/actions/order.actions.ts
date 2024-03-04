@@ -23,23 +23,21 @@ import Category from "../database/models/category.model";
 //     .populate({ path: 'category', model: Category, select: '_id name' })
 // }
 const populateOrderedEvent = (query: any) => {
-  return query
-//     .populate({ path: "buyer", model: User, select: "_id firstName lastName" })
-//     .populate({
-//       path: "event",
-//       model: Event,
-//       populate: {
-//         path: "organizer",
-//         model: User,
-//         select: "_id firstName lastName",
-//       },
-//       select:
-//         "_id title description imageUrl startDateTime endDateTime price isFree url {organizer._id} {organizer.firstName} organizer.lastName }  ",
-//     });
-// 
-}
-;
-
+  return query;
+  //     .populate({ path: "buyer", model: User, select: "_id firstName lastName" })
+  //     .populate({
+  //       path: "event",
+  //       model: Event,
+  //       populate: {
+  //         path: "organizer",
+  //         model: User,
+  //         select: "_id firstName lastName",
+  //       },
+  //       select:
+  //         "_id title description imageUrl startDateTime endDateTime price isFree url {organizer._id} {organizer.firstName} organizer.lastName }  ",
+  //     });
+  //
+};
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -90,7 +88,6 @@ export const createOrder = async (order: CreateOrderParams) => {
   }
 };
 
-// GET ORDERS BY EVENT
 export async function getOrdersByEvent({
   searchString,
   eventId,
@@ -98,41 +95,41 @@ export async function getOrdersByEvent({
   try {
     await connectToDatabase();
 
-    if (!eventId) throw new Error("Event is required");
+    if (!eventId) throw new Error("Event ID is required");
     const eventObjectId = new ObjectId(eventId);
 
     const orders = await Order.aggregate([
       {
         $lookup: {
-          from: "users?",
-          localField: "buyer?",
-          foreignField: "_id?",
-          as: "buyer?",
+          from: "users",
+          localField: "buyer",
+          foreignField: "_id",
+          as: "buyer",
         },
       },
       {
-        $unwind: "$buyer?",
+        $unwind: "$buyer",
       },
       {
         $lookup: {
-          from: "events?",
-          localField: "eventId?",
-          foreignField: "_id?",
-          as: "event?",
+          from: "events",
+          localField: "event",
+          foreignField: "_id",
+          as: "event",
         },
       },
       {
-        $unwind: "$eventId?",
+        $unwind: "$event",
       },
       {
         $project: {
           _id: 1,
           totalAmount: 1,
           createdAt: 1,
-          eventTitle: "$event.title?",
-          event: "$event._id?",
+          eventTitle: "$event.title",
+          eventId: "$event._id",
           buyer: {
-            $concat: ["$buyer?.firstName", " ", "$buyer?.lastName"],
+            $concat: ["$buyer.firstName", " ", "$buyer.lastName"],
           },
         },
       },
@@ -151,6 +148,11 @@ export async function getOrdersByEvent({
     handleError(error);
   }
 }
+
+// // GET ORDERS BY USER
+
+// // GET ORDERS BY EVENT
+
 
 // function populate(arg0: {
 //   path: string;
@@ -187,34 +189,31 @@ export async function getOrderedEventsByUser({
         select: "_id firstName lastName",
       })
       .populate({
-        path: "event", 
+        path: "event",
         model: Event,
         select:
           "_id title description imageUrl startDateTime endDateTime price isFree url {organizer._id} {organizer.firstName} organizer.lastName }  ",
-        })  
-        
+      })
+
       .populate({
         path: "event",
         model: Event,
-         populate: ({
+        populate: {
           path: "organizer",
           model: User,
           select: "_id firstName lastName",
-        })})
+        },
+      })
 
-        .populate({
-          path: "event",
-          model: Event,
-           populate: ({
-            path: "category",
-            model: Category,
-            select: "_id name",
-          })})
-
-
-      
-        
-        ;
+      .populate({
+        path: "event",
+        model: Event,
+        populate: {
+          path: "category",
+          model: Category,
+          select: "_id name",
+        },
+      });
 
     const orderedEvents = await populateOrderedEvent(orderedEventsQuery);
     const ordersCount = await Order.countDocuments(conditions);
