@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Search from "@/components/shared/Search";
 import CategoryFilter from "@/components/shared/CategoryFilter";
-import Collection from "@/components/shared/CollectionOrder";
+import Collection from "@/components/shared/Collection";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { SearchParamProps } from "@/types";
 import { auth } from "@clerk/nextjs";

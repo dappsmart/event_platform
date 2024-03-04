@@ -98,15 +98,15 @@ export async function getOrdersByEvent({
   try {
     await connectToDatabase();
 
-    if (!eventId) throw new Error("Event ID is required");
+    if (!eventId) throw new Error("Event is required");
     const eventObjectId = new ObjectId(eventId);
 
     const orders = await Order.aggregate([
       {
         $lookup: {
-          from: "users",
+          from: "users?",
           localField: "buyer?",
-          foreignField: "_id",
+          foreignField: "_id?",
           as: "buyer?",
         },
       },
@@ -115,24 +115,24 @@ export async function getOrdersByEvent({
       },
       {
         $lookup: {
-          from: "events",
-          localField: "event",
-          foreignField: "_id",
-          as: "event",
+          from: "events?",
+          localField: "eventId?",
+          foreignField: "_id?",
+          as: "event?",
         },
       },
       {
-        $unwind: "$event",
+        $unwind: "$eventId?",
       },
       {
         $project: {
           _id: 1,
           totalAmount: 1,
           createdAt: 1,
-          eventTitle: "$event.title",
-          eventId: "$event._id",
+          eventTitle: "$event.title?",
+          event: "$event._id?",
           buyer: {
-            $concat: ["$buyerId?.firstName", " ", "$buyerId?.lastName"],
+            $concat: ["$buyer?.firstName", " ", "$buyer?.lastName"],
           },
         },
       },
